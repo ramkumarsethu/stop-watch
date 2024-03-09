@@ -16,8 +16,8 @@ export const store = configureStore({
 });
 
 /* 
-Following types are created to infer State and Dispatch to the store with Tasks.
-This is to gain type-safety with our Tasks operations
+Following types are created to infer State and Dispatch to the store objects.
+This is to gain type-safety with our store operations
 */
 type RootState = ReturnType<typeof store.getState>;
 type AppDispatch = typeof store.dispatch;
