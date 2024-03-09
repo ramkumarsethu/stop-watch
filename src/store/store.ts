@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import ModalSliceReducer from './slices/ModalSlice';
 import FormSliceReducer from './slices/FormSlice';
 import { useDispatch } from 'react-redux';
 import { TypedUseSelectorHook } from 'react-redux';
@@ -10,7 +9,6 @@ import { useSelector } from 'react-redux';
  */
 export const store = configureStore({
   reducer: {
-    modal: ModalSliceReducer,
     entities: FormSliceReducer
   }
 });

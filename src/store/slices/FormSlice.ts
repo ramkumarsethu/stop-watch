@@ -17,7 +17,7 @@ const formSlice = createSlice({
   reducers: {
     addToStore: (state, action: { payload: FormEntity }) => {
       const { _type } = action.payload;
-      state[_type] = [...state[_type], { ...action.payload, id: idGenerator('R') }];
+      state[_type] = [...state[_type], { ...action.payload, id: idGenerator(_type) }];
       localStorage.setItem(_type, JSON.stringify(state[_type]));
     },
 

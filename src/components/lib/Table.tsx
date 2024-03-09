@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Form, Table } from 'react-bootstrap';
+import { Button, Col, Form, Table } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { FORM_TYPE, FieldConfig, FormEntity } from '../../types/Form';
 import BasicModal from './modals/Modal';
@@ -18,8 +18,10 @@ type TableConfig = {
  *
  */
 const BasicTable: React.FC<TableConfig> = ({ fieldConfig, formType }: TableConfig) => {
+  console.log(fieldConfig);
   const dispatch = useAppDispatch();
-  const data = useAppSelector((state) => state.entities[formType]);
+  const entitiesData = useAppSelector((state) => state.entities);
+  const data = entitiesData[formType];
   const tableFields = fieldConfig.filter((e) => !!e.tableStyle);
   const searchableField = fieldConfig.find((e) => !!e.searchable);
   const [filteredData, setFilteredData] = useState<FormEntity[]>([]);
@@ -81,6 +83,10 @@ const BasicTable: React.FC<TableConfig> = ({ fieldConfig, formType }: TableConfi
                         }}>
                         {e[field.name]}
                       </a>
+                    ) : field.referenceEntity ? (
+                      entitiesData[field.referenceEntity.referenceType].find(
+                        (entity) => entity.id === e[field.name]
+                      )?.[field.referenceEntity.referenceDisplayLabel] || ''
                     ) : (
                       e[field.name]
                     )}
@@ -93,6 +99,7 @@ const BasicTable: React.FC<TableConfig> = ({ fieldConfig, formType }: TableConfi
                       setOpenConfirmationModal(true);
                       setDeleteId(id);
                     }}
+                    size={16}
                     color="red"></XCircleFill>
                 </td>
               </tr>
@@ -116,18 +123,19 @@ const BasicTable: React.FC<TableConfig> = ({ fieldConfig, formType }: TableConfi
           showModal={openConfirmationModal}
           title="Confirmation needed!"
           handleClose={() => setOpenConfirmationModal(false)}>
-          <div className="d-flex">
-            <button onClick={() => setOpenConfirmationModal(false)} className="secondary">
+          <h5>Are you sure you want to delete?</h5>
+          <div className="d-flex justify-content-end pt-3" style={{ gap: 5 }}>
+            <Button onClick={() => setOpenConfirmationModal(false)} variant="secondary">
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => {
                 dispatch(deleteFromStore({ _type: formType, id: deleteId || '' }));
                 setOpenConfirmationModal(false);
               }}
-              className="primary">
+              variant="primary">
               Delete
-            </button>
+            </Button>
           </div>
         </BasicModal>
       }

@@ -10,11 +10,19 @@ type FormConfig = {
   fields: Array<FieldConfig>;
   formType: FORM_TYPE;
   id?: string;
+  useFullGrid?: boolean;
+  buttonLabel?: string;
 };
 
-const BasicForm: React.FC<FormConfig> = ({ fields, formType, id }: FormConfig) => {
+const BasicForm: React.FC<FormConfig> = ({
+  fields,
+  formType,
+  id,
+  useFullGrid,
+  buttonLabel
+}: FormConfig) => {
   const dispatch = useAppDispatch();
-  const data = useAppSelector((e) => e.entities[formType]);
+  const data = useAppSelector((e) => e.entities);
   const [showToastMessage, setShowToastMessage] = useState(false);
 
   const validationSchema = yup.object().shape(
@@ -42,30 +50,43 @@ const BasicForm: React.FC<FormConfig> = ({ fields, formType, id }: FormConfig) =
           setShowToastMessage(true);
           !id && resetForm(); //reset the form only for new data
         }}
-        initialValues={id ? data.find((e) => e.id === id) || {} : {}}
+        initialValues={id ? data[formType].find((e) => e.id === id) || {} : {}}
         initialTouched={fields.reduce<{ [P in keyof T]: boolean }>((acc, cur) => {
           acc[cur.name] = true;
           return acc;
         }, {})}
-        validateOnMount>
+        validateOnChange>
         {/* going with the render props implementation of Formik to pass handler functions and other props to the Form component */}
         {({ handleSubmit, handleChange, values, errors }) => {
           const errorValues = Object.values(errors);
           return (
             <Form noValidate onSubmit={handleSubmit}>
               {fields.map((fieldConfig) => {
-                const { name, displayName, type, placeholderText } = fieldConfig;
+                const { name, displayName, type, placeholderText, referenceEntity } = fieldConfig;
                 const key = name as keyof T;
                 return (
                   <Row key={name}>
                     {/* using the full grid for the update form as it will be shown in modal */}
-                    <Col md={id ? 12 : 8} sm={12} className="pb-2">
+                    <Col md={id || useFullGrid ? 12 : 8} sm={12} className="pb-2">
                       <Form.Group>
                         <Form.Label className="mb-0">{displayName}</Form.Label>
                         {type === 'TextField' && (
                           <Form.Control
                             size="sm"
                             type="text"
+                            isInvalid={!!errors[key]}
+                            name={name}
+                            value={values[key] || ''}
+                            onChange={handleChange}
+                            placeholder={placeholderText}
+                            autoComplete="off"
+                            spellCheck="false"
+                          />
+                        )}
+                        {type === 'Password' && (
+                          <Form.Control
+                            size="sm"
+                            type="password"
                             isInvalid={!!errors[key]}
                             name={name}
                             value={values[key] || ''}
@@ -89,6 +110,23 @@ const BasicForm: React.FC<FormConfig> = ({ fields, formType, id }: FormConfig) =
                             rows={4}
                           />
                         )}
+                        {type === 'Dropdown' && referenceEntity && (
+                          <Form.Select
+                            size="sm"
+                            isInvalid={!!errors[key]}
+                            name={name}
+                            value={values[key] || ''}
+                            onChange={handleChange}>
+                            <option value=""></option>
+                            {data[referenceEntity.referenceType].map((e) => {
+                              return (
+                                <option key={e.id} value={e.id}>
+                                  {e[referenceEntity.referenceDisplayLabel]}
+                                </option>
+                              );
+                            })}
+                          </Form.Select>
+                        )}
                         <Form.Control.Feedback type="invalid">
                           {errors[key] as []}
                         </Form.Control.Feedback>
@@ -99,14 +137,16 @@ const BasicForm: React.FC<FormConfig> = ({ fields, formType, id }: FormConfig) =
               })}
               <Row>
                 {/* using the full grid for the update form as it will be shown in modal */}
-                <Col md={id ? 12 : 8} className="d-grid d-md-flex justify-content-md-center pt-2">
+                <Col
+                  md={id || useFullGrid ? 12 : 8}
+                  className="d-grid d-md-flex justify-content-md-center pt-2">
                   <Button
                     disabled={errorValues.length > 0}
                     variant="primary"
                     size="sm"
-                    className="col-md-4"
+                    className="col-md-6"
                     type="submit">
-                    {id ? 'Update' : 'Create'}
+                    {buttonLabel || (id ? 'Update' : 'Create')}
                   </Button>
                 </Col>
               </Row>
@@ -131,7 +171,7 @@ const BasicForm: React.FC<FormConfig> = ({ fields, formType, id }: FormConfig) =
             <Toast.Body className="d-flex justify-content-between">
               <div>{id ? 'Data updated successfully' : 'Data created successfully'}</div>
               <div>
-                <button type="button" className="btn-close btn-close-white"></button>
+                <Button type="button" className="btn-close btn-close-white"></Button>
               </div>
             </Toast.Body>
           </Toast>

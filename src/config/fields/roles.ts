@@ -14,7 +14,8 @@ export const roleFormFieldsConfig: Array<FieldConfig> = [
     tableStyle: {
       width: '45%'
     },
-    searchable: true
+    searchable: true,
+    referenceable: true
   },
   {
     name: 'role_description',
