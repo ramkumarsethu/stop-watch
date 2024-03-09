@@ -1,5 +1,5 @@
 import './app.css';
-import RolePage from './components/RolePage';
+import RolePage from './components/pages/RolePage';
 
 export default function App() {
   return (

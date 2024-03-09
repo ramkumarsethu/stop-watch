@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Form, Table } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { FORM_TYPE, FieldConfig, FormEntity } from '../../types/Form';
-import SimpleModal from '../modals/SimpleModal';
+import BasicModal from './modals/Modal';
 import BasicForm from './Form';
 import { XCircleFill } from 'react-bootstrap-icons';
 import { deleteFromStore } from 'src/store/slices/FormSlice';
@@ -103,16 +103,16 @@ const BasicTable: React.FC<TableConfig> = ({ fieldConfig, formType }: TableConfi
       <br></br>
       {/* modal to show update form */}
       {
-        <SimpleModal
+        <BasicModal
           showModal={openUpdateForm}
           title={`Update ${searchableField?.displayName}`}
           handleClose={() => setOpenUpdateForm(false)}>
           <BasicForm fields={fieldConfig} formType={formType} id={updateId || ''}></BasicForm>
-        </SimpleModal>
+        </BasicModal>
       }
       {/* modal to show confirmation when deleting entities */}
       {
-        <SimpleModal
+        <BasicModal
           showModal={openConfirmationModal}
           title="Confirmation needed!"
           handleClose={() => setOpenConfirmationModal(false)}>
@@ -129,7 +129,7 @@ const BasicTable: React.FC<TableConfig> = ({ fieldConfig, formType }: TableConfi
               Delete
             </button>
           </div>
-        </SimpleModal>
+        </BasicModal>
       }
     </>
   );

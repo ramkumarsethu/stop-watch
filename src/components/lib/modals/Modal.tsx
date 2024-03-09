@@ -7,7 +7,7 @@ type ModalProps = PropsWithChildren<{
   title: string;
 }>;
 
-const SimpleModal: React.FC<ModalProps> = ({
+const BasicModal: React.FC<ModalProps> = ({
   title,
   children,
   handleClose,
@@ -23,4 +23,4 @@ const SimpleModal: React.FC<ModalProps> = ({
   );
 };
 
-export default SimpleModal;
+export default BasicModal;
