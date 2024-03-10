@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { FORM_TYPE, FormEntity } from '../../types/Form';
 import { userFormFieldsConfig } from 'src/config/fields/users';
 
-const initialState: { LOGIN: FormEntity } = {
+const initialState: { LOGIN: FormEntity | Record<string, unknown> } = {
   LOGIN: JSON.parse(localStorage.getItem(FORM_TYPE.LOGIN) || '{}')
 };
 
@@ -26,10 +26,15 @@ const loginSlice = createSlice({
 
       state.LOGIN = { ...newValue, _type: FORM_TYPE.LOGIN };
       localStorage.setItem(FORM_TYPE.LOGIN, JSON.stringify(state.LOGIN));
+    },
+
+    logout: (state) => {
+      state.LOGIN = {};
+      localStorage.setItem(FORM_TYPE.LOGIN, JSON.stringify(state.LOGIN));
     }
   }
 });
 
-export const { login } = loginSlice.actions;
+export const { login, logout } = loginSlice.actions;
 
 export default loginSlice.reducer;

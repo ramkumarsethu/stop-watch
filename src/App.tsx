@@ -5,6 +5,7 @@ import AuthLayout from './components/layouts/AuthLayout';
 import AdminLayout from './components/layouts/AdminLayout';
 import UserPage from './components/pages/UserPage';
 import LoginPage from './components/pages/LoginPage';
+import UserLayout from './components/layouts/UserLayout';
 
 export default function App() {
   return (
@@ -17,7 +18,9 @@ export default function App() {
               <Route path="roles" element={<RolePage />} />
               <Route path="users" element={<UserPage />} />
             </Route>
-            <Route path="user" element={<div>User page Not implemented yet</div>} />
+            <Route path="user" element={<UserLayout />}>
+              <Route index element={<>No features yet</>} />
+            </Route>
           </Route>
           <Route path="login" element={<LoginPage />} />
         </Routes>

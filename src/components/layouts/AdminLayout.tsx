@@ -1,12 +1,31 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Link, Outlet } from 'react-router-dom';
+import { logout } from 'src/store/slices/LoginSlice';
+import { useAppDispatch } from 'src/store/store';
 
 const AdminLayout: React.FC = () => {
-  const location = useLocation();
-  console.log(location);
+  const dispatch = useAppDispatch();
 
   return (
     <>
-      <Outlet />
+      <Navbar expand="sm" className="bg-body-tertiary">
+        <Container className="px-0 mx-2">
+          <Navbar.Brand>Admin View</Navbar.Brand>
+          <Navbar.Toggle aria-controls="admin-navbar-nav" />
+          <Navbar.Collapse id="admin-navbar-nav">
+            <Nav className="me-auto gap-3">
+              <Link to={'/admin/roles'}>Roles</Link>
+              <Link to={'/admin/users'}>Users</Link>
+            </Nav>
+            <Nav className='align-self-end'>
+              <Nav.Link onClick={() => dispatch(logout())}>Logout</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <div className="mt-3">
+        <Outlet />
+      </div>
     </>
   );
 };
