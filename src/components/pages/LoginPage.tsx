@@ -17,17 +17,14 @@ const LoginPage: React.FC = () => {
     const { _type } = entity;
     const loginField = formFieldsConfig[_type].find((e) => e.loginField);
     const passwordField = formFieldsConfig[FORM_TYPE.USERS].find((e) => e.passwordField);
-    console.log(loginField, passwordField);
     if (loginField && passwordField) {
       const id = entity[loginField.name]; //id used for login is email
       const password = entity[passwordField.name];
-      console.log(id, password);
       const user = data[FORM_TYPE.USERS].find(
         (e) => e[loginField.name] === id && e[passwordField.name] === password
       );
-      console.log(user);
       if (user) {
-        setShowError(true);
+        setShowError(false);
         dispatch(login(user));
         navigate('/');
       } else {
