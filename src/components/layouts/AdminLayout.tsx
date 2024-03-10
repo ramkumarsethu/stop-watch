@@ -10,7 +10,7 @@ const AdminLayout: React.FC = () => {
     <>
       <Navbar expand="sm" className="bg-body-tertiary">
         <Container className="px-0 mx-2">
-          <Navbar.Brand>Admin View</Navbar.Brand>
+          <Navbar.Brand>Administrator View</Navbar.Brand>
           <Navbar.Toggle aria-controls="admin-navbar-nav" />
           <Navbar.Collapse id="admin-navbar-nav">
             <Nav className="me-auto gap-3">

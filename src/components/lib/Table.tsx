@@ -114,7 +114,10 @@ const BasicTable: React.FC<TableConfig> = ({ formType }: TableConfig) => {
           showModal={openUpdateForm}
           title={`Update Record`}
           handleClose={() => setOpenUpdateForm(false)}>
-          <BasicForm formType={formType} id={updateId || ''}></BasicForm>
+          <BasicForm
+            formType={formType}
+            id={updateId || ''}
+            postSubmitHandler={() => setOpenUpdateForm(false)}></BasicForm>
         </BasicModal>
       }
       {/* modal to show confirmation when deleting entities */}

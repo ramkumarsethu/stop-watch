@@ -13,6 +13,7 @@ type FormConfig = {
   useFullGrid?: boolean;
   buttonLabel?: string;
   preSubmitHandler?: (entity: FormEntity) => boolean;
+  postSubmitHandler?: () => void;
 };
 
 const BasicForm: React.FC<FormConfig> = ({
@@ -20,7 +21,10 @@ const BasicForm: React.FC<FormConfig> = ({
   id,
   useFullGrid,
   buttonLabel,
-  preSubmitHandler = () => true
+  preSubmitHandler = () => true,
+  postSubmitHandler = () => {
+    /**/
+  }
 }: FormConfig) => {
   const fields = formFieldsConfig[formType];
   const dispatch = useAppDispatch();
@@ -55,6 +59,7 @@ const BasicForm: React.FC<FormConfig> = ({
 
             setShowToastMessage(true);
             !id && resetForm(); //reset the form only for new data
+            postSubmitHandler();
           }
         }}
         initialValues={id ? data[formType].find((e) => e.id === id) || {} : {}}

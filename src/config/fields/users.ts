@@ -7,7 +7,6 @@ export const userFormFieldsConfig: Array<FieldConfig> = [
     name: 'full_name',
     type: 'TextField',
     displayName: 'Full Name',
-    placeholderText: 'Please enter Full Name...',
     validationRule: yup
       .string()
       .required('Full Name is a required field. Maximum allowed is 50 characters.')
@@ -21,11 +20,10 @@ export const userFormFieldsConfig: Array<FieldConfig> = [
     name: 'email',
     displayName: 'Email',
     type: 'TextField',
-    placeholderText: 'Please enter email address...',
     validationRule: yup
       .string()
-      .email('Email is a required field. Please enter valid email address')
-      .required('Please enter valid email address'),
+      .email('Please enter a valid email address')
+      .required('Email address is a required field'),
     tableStyle: {
       width: '30%'
     },

@@ -3,6 +3,36 @@ import { idGenerator } from '../../util/util';
 import { FORM_TYPE, FormEntity } from '../../types/Form';
 import { formFieldsConfig } from 'src/config/config';
 
+/*
+  This is a one time script to load admin role and admin user for initial login to use the app
+*/
+if (!localStorage.getItem('ROLES') && !localStorage.getItem('USERS')) {
+  localStorage.setItem(
+    'ROLES',
+    JSON.stringify([
+      {
+        role_name: 'Admin',
+        role_description: 'Administrator',
+        _type: 'ROLES',
+        id: 'ROLES-3/10/2024-10:39:52'
+      }
+    ])
+  );
+  localStorage.setItem(
+    'USERS',
+    JSON.stringify([
+      {
+        full_name: 'Administrator',
+        email: 'admin@admin.com',
+        role: 'ROLES-3/10/2024-10:39:52',
+        _type: 'USERS',
+        id: 'USERS-3/10/2024-10:40:15',
+        password: '12345'
+      }
+    ])
+  );
+}
+
 const initialState = Object.values(FORM_TYPE).reduce((acc, cur) => {
   acc[cur] = JSON.parse(localStorage.getItem(cur) || '[]');
   return acc;

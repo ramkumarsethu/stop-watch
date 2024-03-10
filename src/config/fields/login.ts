@@ -8,7 +8,6 @@ export const loginFormFieldsConfig: Array<FieldConfig> = [
     name: userFormFieldsConfig.find((e) => e.passwordField)?.name || '',
     displayName: 'Password',
     type: 'Password',
-    placeholderText: 'Please enter your password...',
     validationRule: yup.string().required('Password is a required field')
   }
 ];
