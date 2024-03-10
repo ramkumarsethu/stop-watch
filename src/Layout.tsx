@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const Layout: React.FC = () => {
   const navigate = useNavigate();
@@ -11,7 +11,8 @@ const Layout: React.FC = () => {
   return (
     <>
       <div>Nav here</div>
-      {Math.random() < 0.5 ? <Outlet /> : <Navigate to={'login'} />}
+      {<Outlet />}
+      {/*Math.random() < 0.5 ? <Outlet /> : <Navigate to={'login'} />*/}
     </>
   );
 };

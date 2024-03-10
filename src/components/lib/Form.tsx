@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
-import { FORM_TYPE, FieldConfig } from '../../types/Form';
+import { FORM_TYPE, FormEntity } from '../../types/Form';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Button, Col, Form, Row, Toast, ToastContainer } from 'react-bootstrap';
 import { addToStore, updateValueInStore } from '../../store/slices/FormSlice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
+import { formFieldsConfig } from 'src/config/config';
 
 type FormConfig = {
-  fields: Array<FieldConfig>;
   formType: FORM_TYPE;
   id?: string;
   useFullGrid?: boolean;
   buttonLabel?: string;
+  preSubmitHandler?: (entity: FormEntity) => boolean;
 };
 
 const BasicForm: React.FC<FormConfig> = ({
-  fields,
   formType,
   id,
   useFullGrid,
-  buttonLabel
+  buttonLabel,
+  preSubmitHandler = () => true
 }: FormConfig) => {
+  const fields = formFieldsConfig[formType];
   const dispatch = useAppDispatch();
   const data = useAppSelector((e) => e.entities);
   const [showToastMessage, setShowToastMessage] = useState(false);
@@ -42,13 +44,18 @@ const BasicForm: React.FC<FormConfig> = ({
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
           //following code (basically this handler) is executed only on successful vaidation of the input fields
-          if (id) {
-            dispatch(updateValueInStore({ ...values, _type: formType, id }));
-          } else {
-            dispatch(addToStore({ ...values, _type: formType, id: '' })); //id is set empty to satisfy the ts compiler. but is set in the reducer before storing in store
+          const valuesToBeSaved = { ...values, _type: formType, id: id || '' };
+          const submitFlag = preSubmitHandler(valuesToBeSaved);
+          if (submitFlag) {
+            if (id) {
+              dispatch(updateValueInStore(valuesToBeSaved));
+            } else {
+              dispatch(addToStore(valuesToBeSaved)); //id is set empty to satisfy the ts compiler. but is set in the reducer before storing in store
+            }
+
+            setShowToastMessage(true);
+            !id && resetForm(); //reset the form only for new data
           }
-          setShowToastMessage(true);
-          !id && resetForm(); //reset the form only for new data
         }}
         initialValues={id ? data[formType].find((e) => e.id === id) || {} : {}}
         initialTouched={fields.reduce<{ [P in keyof T]: boolean }>((acc, cur) => {
@@ -69,7 +76,9 @@ const BasicForm: React.FC<FormConfig> = ({
                     {/* using the full grid for the update form as it will be shown in modal */}
                     <Col md={id || useFullGrid ? 12 : 8} sm={12} className="pb-2">
                       <Form.Group>
-                        <Form.Label className="mb-0">{displayName}</Form.Label>
+                        {type !== 'Hidden' && (
+                          <Form.Label className="mb-0">{displayName}</Form.Label>
+                        )}
                         {type === 'TextField' && (
                           <Form.Control
                             size="sm"
@@ -144,7 +153,7 @@ const BasicForm: React.FC<FormConfig> = ({
                     disabled={errorValues.length > 0}
                     variant="primary"
                     size="sm"
-                    className="col-md-6"
+                    className="col-md-4"
                     type="submit">
                     {buttonLabel || (id ? 'Update' : 'Create')}
                   </Button>

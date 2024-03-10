@@ -21,14 +21,15 @@ export const userFormFieldsConfig: Array<FieldConfig> = [
     name: 'email',
     displayName: 'Email',
     type: 'TextField',
-    placeholderText: 'Please enter Role description...',
+    placeholderText: 'Please enter email address...',
     validationRule: yup
       .string()
       .email('Email is a required field. Please enter valid email address')
       .required('Please enter valid email address'),
     tableStyle: {
       width: '30%'
-    }
+    },
+    loginField: true
   },
   {
     name: 'role',
@@ -40,8 +41,12 @@ export const userFormFieldsConfig: Array<FieldConfig> = [
     },
     referenceEntity: {
       referenceType: FORM_TYPE.ROLES,
-      referenceDisplayLabel:
-        roleFormFieldsConfig.find((e) => e.referenceable && e.name === 'role_name')?.name || ''
+      referenceDisplayLabel: roleFormFieldsConfig.find((e) => e.referenceable)?.name || ''
     }
+  },
+  {
+    name: 'password',
+    type: 'Hidden',
+    passwordField: true
   }
 ];

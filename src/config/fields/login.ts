@@ -1,19 +1,11 @@
 import { FieldConfig } from '../../types/Form';
 import * as yup from 'yup';
+import { userFormFieldsConfig } from './users';
 
 export const loginFormFieldsConfig: Array<FieldConfig> = [
+  userFormFieldsConfig.find((e) => e.loginField) || { name: '', type: 'Hidden' }, //fallback is added just to satisfy ts compiler and never really used
   {
-    name: 'user_name',
-    type: 'TextField',
-    displayName: 'Email',
-    placeholderText: 'Please enter your email address...',
-    validationRule: yup
-      .string()
-      .required('Email is a required field')
-      .email('Please enter valid email address')
-  },
-  {
-    name: 'password',
+    name: userFormFieldsConfig.find((e) => e.passwordField)?.name || '',
     displayName: 'Password',
     type: 'Password',
     placeholderText: 'Please enter your password...',

@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import FormSliceReducer from './slices/FormSlice';
+import LoginReducer from './slices/LoginSlice';
 import { useDispatch } from 'react-redux';
 import { TypedUseSelectorHook } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -9,7 +10,8 @@ import { useSelector } from 'react-redux';
  */
 export const store = configureStore({
   reducer: {
-    entities: FormSliceReducer
+    entities: FormSliceReducer,
+    login: LoginReducer
   }
 });
 

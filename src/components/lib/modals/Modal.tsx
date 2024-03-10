@@ -17,7 +17,7 @@ const BasicModal: React.FC<ModalProps> = ({
   showModal,
   floatingBackdrop = true,
   showCloseButton = true,
-  modalSize = 'xl'
+  modalSize = 'lg'
 }: ModalProps) => {
   return (
     <Modal

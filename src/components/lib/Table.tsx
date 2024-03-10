@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Table } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { FORM_TYPE, FieldConfig, FormEntity } from '../../types/Form';
+import { FORM_TYPE, FormEntity } from '../../types/Form';
 import BasicModal from './modals/Modal';
 import BasicForm from './Form';
 import { XCircleFill } from 'react-bootstrap-icons';
 import { deleteFromStore } from 'src/store/slices/FormSlice';
+import { formFieldsConfig } from 'src/config/config';
 
 type TableConfig = {
-  fieldConfig: Array<FieldConfig>;
   formType: FORM_TYPE;
 };
 
@@ -17,7 +17,8 @@ type TableConfig = {
  * Component that displays Table
  *
  */
-const BasicTable: React.FC<TableConfig> = ({ fieldConfig, formType }: TableConfig) => {
+const BasicTable: React.FC<TableConfig> = ({ formType }: TableConfig) => {
+  const fieldConfig = formFieldsConfig[formType];
   console.log(fieldConfig);
   const dispatch = useAppDispatch();
   const entitiesData = useAppSelector((state) => state.entities);
@@ -114,7 +115,7 @@ const BasicTable: React.FC<TableConfig> = ({ fieldConfig, formType }: TableConfi
           showModal={openUpdateForm}
           title={`Update ${searchableField?.displayName}`}
           handleClose={() => setOpenUpdateForm(false)}>
-          <BasicForm fields={fieldConfig} formType={formType} id={updateId || ''}></BasicForm>
+          <BasicForm formType={formType} id={updateId || ''}></BasicForm>
         </BasicModal>
       }
       {/* modal to show confirmation when deleting entities */}
