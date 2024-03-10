@@ -5,7 +5,6 @@ import { formFieldsConfig } from 'src/config/config';
 
 const initialState = Object.values(FORM_TYPE).reduce((acc, cur) => {
   acc[cur] = JSON.parse(localStorage.getItem(cur) || '[]');
-  console.log(acc);
   return acc;
 }, {} as Record<FORM_TYPE, Array<FormEntity>>);
 

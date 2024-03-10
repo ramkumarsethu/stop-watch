@@ -14,10 +14,10 @@ const AdminLayout: React.FC = () => {
           <Navbar.Toggle aria-controls="admin-navbar-nav" />
           <Navbar.Collapse id="admin-navbar-nav">
             <Nav className="me-auto gap-3">
-              <Link to={'/admin/roles'}>Roles</Link>
-              <Link to={'/admin/users'}>Users</Link>
+              <Link to={'/admin/roles'}>Manage Roles</Link>
+              <Link to={'/admin/users'}>Manage Users</Link>
             </Nav>
-            <Nav className='align-self-end'>
+            <Nav className="align-self-end">
               <Nav.Link onClick={() => dispatch(logout())}>Logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>

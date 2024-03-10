@@ -19,7 +19,6 @@ type TableConfig = {
  */
 const BasicTable: React.FC<TableConfig> = ({ formType }: TableConfig) => {
   const fieldConfig = formFieldsConfig[formType];
-  console.log(fieldConfig);
   const dispatch = useAppDispatch();
   const entitiesData = useAppSelector((state) => state.entities);
   const data = entitiesData[formType];
@@ -113,7 +112,7 @@ const BasicTable: React.FC<TableConfig> = ({ formType }: TableConfig) => {
       {
         <BasicModal
           showModal={openUpdateForm}
-          title={`Update ${searchableField?.displayName}`}
+          title={`Update Record`}
           handleClose={() => setOpenUpdateForm(false)}>
           <BasicForm formType={formType} id={updateId || ''}></BasicForm>
         </BasicModal>
