@@ -4,7 +4,7 @@ import BasicModal from '../lib/modals/Modal';
 import { formFieldsConfig } from 'src/config/config';
 import { useAppDispatch, useAppSelector } from 'src/store/store';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { login } from 'src/store/slices/LoginSlice';
 
 const LoginPage: React.FC = () => {
@@ -12,6 +12,36 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [showError, setShowError] = useState(false);
+
+  useEffect(() => {
+    /*
+      This is a one time script to load admin role and admin user for initial login to use the app
+    */
+    localStorage.setItem(
+      'ROLES',
+      JSON.stringify([
+        {
+          role_name: 'Admin',
+          role_description: 'Administrator',
+          _type: 'ROLES',
+          id: 'ROLES-3/10/2024-10:39:52'
+        }
+      ])
+    );
+    localStorage.setItem(
+      'USERS',
+      JSON.stringify([
+        {
+          full_name: 'Administrator',
+          email: 'admin@admin.com',
+          role: 'ROLES-3/10/2024-10:39:52',
+          _type: 'USERS',
+          id: 'USERS-3/10/2024-10:40:15',
+          password: '12345'
+        }
+      ])
+    );
+  }, []);
 
   const preSubmitHandler = (entity: FormEntity) => {
     const { _type } = entity;

@@ -9,8 +9,8 @@ export const roleFormFieldsConfig: Array<FieldConfig> = [
     placeholderText: 'Please enter Role Name...',
     validationRule: yup
       .string()
-      .required('Role Name is a required field. Maximum allowed is 10 characters.')
-      .max(30, 'maximum allowed is 10 characters.'),
+      .required('Role Name is a required field. Maximum allowed is 30 characters.')
+      .max(30, 'maximum allowed is 30 characters.'),
     tableStyle: {
       width: '45%'
     },
@@ -24,8 +24,8 @@ export const roleFormFieldsConfig: Array<FieldConfig> = [
     placeholderText: 'Please enter Role description...',
     validationRule: yup
       .string()
-      .required('Role Description is a required field. Maximum allowed is 10 characters.')
-      .max(10, 'maximum allowed is 10 characters.'),
+      .required('Role Description is a required field. Maximum allowed is 100 characters.')
+      .max(100, 'maximum allowed is 100 characters.'),
     tableStyle: {
       width: '45%'
     }

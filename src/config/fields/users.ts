@@ -11,7 +11,7 @@ export const userFormFieldsConfig: Array<FieldConfig> = [
     validationRule: yup
       .string()
       .required('Full Name is a required field. Maximum allowed is 50 characters.')
-      .max(10, 'maximum allowed is 50 characters.'),
+      .max(50, 'maximum allowed is 50 characters.'),
     tableStyle: {
       width: '30%'
     },
