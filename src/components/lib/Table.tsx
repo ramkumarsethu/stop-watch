@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Table } from 'react-bootstrap';
+import { Button, Form, Table } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { FORM_TYPE, FormEntity } from '../../types/Form';
 import BasicModal from './modals/Modal';
@@ -45,11 +45,12 @@ const BasicTable: React.FC<TableConfig> = ({ formType }: TableConfig) => {
     <>
       <h6 className="pt-5"></h6>
       <Form>
-        <Form.Group className="mb-2">
-          <Form.Label>Search by {searchableField?.displayName}:</Form.Label>
-          <Col md={8}>
+        <Form.Group className="mb-2 d-flex flex-wrap column-gap-3">
+          <Form.Label className='align-self-end text-nowrap'>Search by {searchableField?.displayName}:</Form.Label>
+          <div className='flex-grow-1' style={{ flexBasis: 400 }}>
             <Form.Control onChange={(e) => setSearch(e.target.value)} type="text" />
-          </Col>
+          </div>
+          
         </Form.Group>
       </Form>
       <Table striped bordered hover>
