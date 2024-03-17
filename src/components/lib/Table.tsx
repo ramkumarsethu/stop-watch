@@ -46,11 +46,12 @@ const BasicTable: React.FC<TableConfig> = ({ formType }: TableConfig) => {
       <h6 className="pt-5"></h6>
       <Form>
         <Form.Group className="mb-2 d-flex flex-wrap column-gap-3">
-          <Form.Label className='align-self-end text-nowrap'>Search by {searchableField?.displayName}:</Form.Label>
-          <div className='flex-grow-1' style={{ flexBasis: 400 }}>
+          <Form.Label className="align-self-end text-nowrap">
+            Search by {searchableField?.displayName}:
+          </Form.Label>
+          <div className="flex-grow-1" style={{ flexBasis: 400 }}>
             <Form.Control onChange={(e) => setSearch(e.target.value)} type="text" />
           </div>
-          
         </Form.Group>
       </Form>
       <Table striped bordered hover>

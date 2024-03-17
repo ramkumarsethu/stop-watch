@@ -6,6 +6,7 @@ import AdminLayout from './components/layouts/AdminLayout';
 import UserPage from './components/pages/UserPage';
 import LoginPage from './components/pages/LoginPage';
 import UserLayout from './components/layouts/UserLayout';
+import UserRoleMappingPage from './components/pages/UserRoleMappingPage';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
               <Route index element={<RolePage />} />
               <Route path="roles" element={<RolePage />} />
               <Route path="users" element={<UserPage />} />
+              <Route path="user-role-mapping" element={<UserRoleMappingPage />} />
             </Route>
             <Route path="user" element={<UserLayout />}>
               <Route index element={<>No features yet</>} />

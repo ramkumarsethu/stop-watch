@@ -14,7 +14,8 @@ export const userFormFieldsConfig: Array<FieldConfig> = [
     tableStyle: {
       width: '30%'
     },
-    searchable: true
+    searchable: true,
+    referenceable: true
   },
   {
     name: 'email',

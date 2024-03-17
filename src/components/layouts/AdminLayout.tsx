@@ -16,6 +16,7 @@ const AdminLayout: React.FC = () => {
             <Nav className="me-auto gap-3">
               <Link to={'/admin/roles'}>Manage Roles</Link>
               <Link to={'/admin/users'}>Manage Users</Link>
+              <Link to={'/admin/user-role-mapping'}>Manage User/Role mapping</Link>
             </Nav>
             <Nav className="align-self-end">
               <Nav.Link onClick={() => dispatch(logout())}>Logout</Nav.Link>
