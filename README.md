@@ -1,0 +1,1 @@
+A simple stop watch app developed using React
