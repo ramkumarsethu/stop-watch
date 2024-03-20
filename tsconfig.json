@@ -1,4 +1,4 @@
-{
+{ 
   "compilerOptions": {
     // Emit Configuration
     "noEmit": true,
