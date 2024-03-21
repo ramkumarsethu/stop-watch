@@ -88,7 +88,7 @@ const StopWatch = () => {
         flexDirection: 'column',
         height: '100vh',
         rowGap: 20,
-        backgroundColor: 'beige',
+        backgroundColor: 'beige'
       }}>
       <div style={{ fontSize: 50 }}>
         <>
@@ -109,7 +109,8 @@ const StopWatch = () => {
           )}
         </>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-around', width: '50vw', columnGap: 10 }}>
+      <div
+        style={{ display: 'flex', justifyContent: 'space-around', width: '50vw', columnGap: 10 }}>
         <StopWatchButton
           onClickHandler={resetButtonHandler}
           buttonClass="btn-secondary"
