@@ -68,7 +68,9 @@ const StopWatch = () => {
       }
       setTimer(0);
     } else {
-      const seconds = (timer / 100.0).toString().split('.');
+      const seconds = Number.parseFloat((timer / 100).toString())
+        .toFixed(2)
+        .split('.');
       setMinutesHours((oldValue) => {
         return {
           ...oldValue,
@@ -90,7 +92,7 @@ const StopWatch = () => {
         rowGap: 20,
         backgroundColor: 'beige'
       }}>
-      <div style={{ fontSize: 50 }}>
+      <div style={{ fontSize: '15vw', display: 'flex', columnGap: 5 }}>
         <>
           {padTwoDigits(
             minutesHours.hours.toString() //displaying hours
