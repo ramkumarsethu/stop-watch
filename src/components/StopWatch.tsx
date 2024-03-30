@@ -9,34 +9,26 @@ const defaultValue: { hours: number; minutes: number; seconds: number; milliSeco
 };
 
 const StopWatch = () => {
-  const timerIntervalRef = useRef<{ intervalRef: ReturnType<typeof setInterval> }>({
-    intervalRef: 0
+  const timerIntervalRef = useRef<{ intervalId: ReturnType<typeof setInterval> | undefined }>({
+    intervalId: undefined
   });
   const [minutesHours, setMinutesHours] = useState({ ...defaultValue });
   const [timer, setTimer] = useState(0);
   const [startCounter, setStartCounter] = useState(false);
-  const [resetPressed, setResetPressed] = useState(false);
 
-  const startStopCounter = useCallback((startCounter: boolean, resetCounter?: boolean) => {
+  useEffect(() => {
+    const intervalRef = timerIntervalRef.current;
     if (startCounter) {
       const intervalNumber = setInterval(() => {
         setTimer((timer) => timer + 1);
       }, 10);
-      timerIntervalRef.current.intervalRef = intervalNumber;
-    } else if (resetCounter) {
-      clearInterval(timerIntervalRef.current.intervalRef);
-      setResetPressed(true);
-    } else {
-      clearInterval(timerIntervalRef.current.intervalRef);
+      timerIntervalRef.current.intervalId = intervalNumber;
     }
-  }, []);
 
-  useEffect(() => {
-    if (resetPressed) {
-      setMinutesHours({ ...defaultValue });
-      setTimer(0);
-    }
-  }, [resetPressed]);
+    return () => {
+      intervalRef && clearInterval(intervalRef.intervalId);
+    };
+  }, [startCounter]);
 
   const padTwoDigits = useCallback((digits: string) => {
     if (digits) {
@@ -47,15 +39,14 @@ const StopWatch = () => {
   }, []);
 
   const resetButtonHandler = useCallback(() => {
-    startStopCounter(false, true);
     setStartCounter(false);
-  }, [startStopCounter]);
+    setMinutesHours({ ...defaultValue });
+    setTimer(0);
+  }, []);
 
   const startButtonHandler = useCallback(() => {
-    setResetPressed(false);
-    startStopCounter(!startCounter);
     setStartCounter((startFlag) => !startFlag);
-  }, [startCounter, startStopCounter]);
+  }, []);
 
   useEffect(() => {
     const minutes = Math.floor(timer / 6000);
