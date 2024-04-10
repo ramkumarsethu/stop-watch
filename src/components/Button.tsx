@@ -13,7 +13,7 @@ const StopWatchButton = ({
   return (
     <Button
       className={`btn ${buttonClass}`}
-      style={{ padding: 10, borderRadius: 50, fontSize: 20, width: 100 }}
+      style={{ padding: 10, borderRadius: 50, fontSize: 22, width: 100 }}
       onClick={onClickHandler}>
       {label}
     </Button>

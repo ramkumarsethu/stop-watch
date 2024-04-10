@@ -81,10 +81,17 @@ const StopWatch = () => {
         flexDirection: 'column',
         height: '100vh',
         rowGap: 20,
-        backgroundColor: 'beige',
+        backgroundColor: 'inherit',
         justifyItems: 'center'
       }}>
-      <div style={{ fontSize: '15vw', display: 'flex', columnGap: 5, maxWidth: '70vw' }}>
+      <div
+        style={{
+          fontSize: '15vw',
+          display: 'flex',
+          columnGap: 5,
+          maxWidth: '70vw',
+          color: 'white'
+        }}>
         <>
           {padTwoDigits(
             minutesHours.hours.toString() //displaying hours

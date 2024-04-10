@@ -2,6 +2,7 @@ body {
   padding: 20px;
   box-sizing: border-box;
   font-family: Times, 'Times New Roman', Georgia, serif !important;
+  background-color: #282828 !important;
 }
 
 /* few bootstrap classes customized */
