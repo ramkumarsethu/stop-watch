@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import StopWatchButton from './Button';
+import { Time } from 'src/types/Time';
+import useTimerWorker from 'src/hooks/useTimerWorker';
 
-const defaultValue: { hours: number; minutes: number; seconds: number; milliSeconds: number } = {
+const defaultValue: Time = {
   hours: 0,
   minutes: 0,
   seconds: 0,
@@ -9,26 +11,9 @@ const defaultValue: { hours: number; minutes: number; seconds: number; milliSeco
 };
 
 const StopWatch = () => {
-  const timerIntervalRef = useRef<{ intervalId: ReturnType<typeof setInterval> | undefined }>({
-    intervalId: undefined
-  });
   const [minutesHours, setMinutesHours] = useState({ ...defaultValue });
-  const [timer, setTimer] = useState(0);
   const [startCounter, setStartCounter] = useState(false);
-
-  useEffect(() => {
-    const intervalRef = timerIntervalRef.current;
-    if (startCounter) {
-      const intervalNumber = setInterval(() => {
-        setTimer((timer) => timer + 1);
-      }, 10);
-      timerIntervalRef.current.intervalId = intervalNumber;
-    }
-
-    return () => {
-      intervalRef && clearInterval(intervalRef.intervalId);
-    };
-  }, [startCounter]);
+  const { workerMethods, timer, setTimer } = useTimerWorker();
 
   const padTwoDigits = useCallback((digits: string) => {
     if (digits) {
@@ -38,17 +23,25 @@ const StopWatch = () => {
     }
   }, []);
 
-  const resetButtonHandler = useCallback(() => {
+  const resetButtonHandler = useCallback(async () => {
     setStartCounter(false);
     setMinutesHours({ ...defaultValue });
     setTimer(0);
-  }, []);
+    await workerMethods?.resetTimer();
+  }, [workerMethods, setTimer]);
 
-  const startButtonHandler = useCallback(() => {
+  const startButtonHandler = useCallback(async () => {
+    if (startCounter) {
+      await workerMethods?.stopTimer();
+    } else {
+      await workerMethods?.startTimer(timer);
+    }
     setStartCounter((startFlag) => !startFlag);
-  }, []);
+  }, [workerMethods, startCounter, timer]);
 
   useEffect(() => {
+    const setNewTimerValueInWorker = async (value: number) =>
+      await workerMethods?.updateTimer(value);
     const minutes = Math.floor(timer / 6000);
     if (minutes + minutesHours.minutes > minutesHours.minutes) {
       const newMinutes = minutesHours.minutes + 1;
@@ -58,6 +51,7 @@ const StopWatch = () => {
         setMinutesHours((oldValue) => ({ ...oldValue, minutes: newMinutes }));
       }
       setTimer(0);
+      setNewTimerValueInWorker(0);
     } else {
       const seconds = Number.parseFloat((timer / 100).toString())
         .toFixed(2)
@@ -70,7 +64,7 @@ const StopWatch = () => {
         };
       });
     }
-  }, [timer, padTwoDigits, minutesHours.minutes]);
+  }, [timer, padTwoDigits, minutesHours.minutes, setTimer, workerMethods]);
 
   return (
     <div

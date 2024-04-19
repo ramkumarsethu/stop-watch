@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
+    "comlink": "^4.4.1",
     "react-bootstrap": "^2.10.1"
   }
 }
