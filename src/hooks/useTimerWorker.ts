@@ -12,10 +12,7 @@ const useTimerWorker = () => {
 
   useEffect(() => {
     const setupTimerWorkerThread = () => {
-      worker.current = new Worker(new URL('../workers/TimerWorker', import.meta.url), {
-        name: 'TimerWorker',
-        type: 'module'
-      });
+      worker.current = new Worker(new URL('../workers/TimerWorker', import.meta.url));
       workerMethods.current = wrap<import('../workers/TimerWorker').TimerServiceWorker>(
         worker.current
       );
