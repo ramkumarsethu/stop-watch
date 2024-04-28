@@ -4,8 +4,8 @@ import { Time } from 'src/types/Time';
 import useTimerWorker from 'src/hooks/useTimerWorker';
 
 const defaultValue: Time = {
-  hours: 0,
-  minutes: 0,
+  hours: 1,
+  minutes: 59,
   seconds: 0,
   milliSeconds: 0
 };
@@ -26,8 +26,8 @@ const StopWatch = () => {
   const resetButtonHandler = useCallback(async () => {
     setStartCounter(false);
     setMinutesHours({ ...defaultValue });
-    setTimer(0);
     await workerMethods?.resetTimer();
+    setTimer(0);
   }, [workerMethods, setTimer]);
 
   const startButtonHandler = useCallback(async () => {

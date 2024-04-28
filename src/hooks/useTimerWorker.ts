@@ -27,6 +27,7 @@ const useTimerWorker = () => {
       };
     }
 
+    //clean up callback that terminates the worker thread when the Stop watch gets unmounted
     return () => {
       worker.current?.terminate();
     };
