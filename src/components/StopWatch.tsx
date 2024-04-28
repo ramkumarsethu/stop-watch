@@ -108,7 +108,7 @@ const StopWatch = () => {
         style={{ display: 'flex', justifyContent: 'space-around', width: '50vw', columnGap: 10 }}>
         <StopWatchButton
           onClickHandler={resetButtonHandler}
-          buttonClass="btn-secondary"
+          buttonClass="btn-warning"
           label="Reset"
         />
         <StopWatchButton
