@@ -4,8 +4,8 @@ import { Time } from 'src/types/Time';
 import useTimerWorker from 'src/hooks/useTimerWorker';
 
 const defaultValue: Time = {
-  hours: 1,
-  minutes: 59,
+  hours: 0,
+  minutes: 0,
   seconds: 0,
   milliSeconds: 0
 };
